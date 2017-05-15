@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="ui grid divided horizontally padded">
+    <div class="eleven wide column">
+        {% if error %}
+            <div class="ui floating message">
+                <i class="warning circle icon"></i>
+                <div class="content">
+                    <div class="header">Error</div>
+                    <p>{{ error }}</p>
+                </div>
+            </div>
+        {% else %}
+            <div class="ui buttons">
+                {% for fn, f in results.get('output_files', {}).items() %}
+                    <a class="ui primary basic button"
+                       href="{{ url_for('get_worklist_file', filename=f, download_as=fn) }}">
+                        Download {{ fn }} file
+                    </a>
+                {% endfor %}
+            </div>
+            <div class="ui buttons">
+                {% for fn, f in results.get('other_files', {}).items() %}
+                <a class="ui teal basic button"
+                   href="{{ url_for('get_worklist_file', filename=f, download_as=fn) }}">
+                    Download {{ fn }} file
+                </a>
+                {% endfor %}
+            </div>
+            <div id="plate-container"></div>
+        {% endif %}
+        {% block left %}{% endblock %}
+    </div>
+    <div class="five wide column">
+        {% block right %}{% endblock %}
+    </div>
+</div>
+<script>var plate_data = {{ results|tojson }};</script>
+{% endblock %}
+
+{% block postscript %}
+<script src="{{ url_for('static', filename='plates.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,93 @@
+html, body {
+    height: 100%;
+}
+
+.ui.grid {
+    height: 100%;
+}
+
+.hover {
+    position: absolute;
+    padding: 0.5em;
+    background: white;
+    border: 1px solid rgba(34,36,38,0.3);
+    border-radius: 0.25em;
+    box-shadow: 0 1px 2px 0 rgba(34,36,38,0.15);
+    z-index: 5;
+}
+
+.key {
+    float: right;
+}
+
+.key:before {
+    content: 'Key';
+    display: block;
+    width: 100%;
+    padding: 0 0 0.25em 1em;
+    font-weight: bold;
+    border-bottom: 1px solid rgba(34,36,38,0.1);
+    background: rgba(34,36,38,0.1);
+}
+
+.plate {
+    margin-top: 3em;
+    padding-top: 1em;
+    border: 1px solid rgba(34,36,38,0.3);
+    border-radius: 0.5em;
+    position: relative;
+}
+
+.title {
+    position: absolute;
+    right: 0;
+    top: -2em;
+}
+
+.well {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    position: absolute;
+    border: 1px solid rgba(34,36,38,0.3);
+    border-radius: 100em;
+    line-height: 0;
+}
+
+.contents {
+    display: inline-block;
+    width: 0.75em;
+    height: 0.75em;
+    line-height: 0;
+    border-radius: 100em;
+}
+
+.contents.number {
+    display: inline-block;
+    width: 1.1em;
+    height: 1.1em;
+    background: rgba(34,36,38,0.3);
+    line-height: 1em;
+    font-size: 0.8em;
+    font-weight: bold;
+    text-align: center;
+}
+
+.hover .substance {
+    display: block;
+    font-size: 0.9em;
+}
+
+.substance .indicator {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    margin-right: 0.5em;
+    border-radius: 100em;
+}
+
+.substance .amount {
+    margin-left: 0.5em;
+    font-weight: bold;
+}
