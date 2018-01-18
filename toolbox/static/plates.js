@@ -47,7 +47,11 @@ $(document).ready(function() {
     var getContentsColour = function(d) {
         var substance = d[1];
         var substanceIdx = plate_data.plates.substances.indexOf(substance);
-        return colours[substanceIdx];
+        var colourId = substanceIdx;
+        if (substanceIdx >= colours.length) {
+            colourId = substanceIdx % colours.length;
+        }
+        return colours[colourId];
     };
 
     var makeHoverHTML = function(d) {
@@ -62,6 +66,10 @@ $(document).ready(function() {
             var amount = '&nbsp;<span class="amount">' + showAmount + ' nl</span>';
             output += '<span class="substance">'+ colourBlob + item[1] + amount + '</span>';
         });
+        if (d.contents.length > 1) {
+            output += '<div class="ui horizontal divider">Total</div>';
+            output += '<span class="amount">' + d.total + ' nl</span>';
+        }
         return output;
     };
 
@@ -69,7 +77,13 @@ $(document).ready(function() {
         .data(plate_data.plates.substances)
         .enter().append('div')
         .attr('class', 'item')
-		.style('color', function(d, i) { return colours[i] })
+		.style('color', function(d, i) {
+            var colourId = i;
+            if (i >= colours.length) {
+                colourId = i % colours.length;
+            }
+            return colours[colourId];
+        })
 		.text(function(d) { return d });
 
     var plates = container.selectAll('div.plate')

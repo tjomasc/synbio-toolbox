@@ -1,0 +1,28 @@
+{% extends 'worklists.html' %}
+
+{% block right %}
+<form class="ui form" enctype="multipart/form-data" method="post">
+    <div class="field">
+        <label>Equipment to create files for</label>
+        <select name="equipment">
+            <option value="mosquito" {% if data.equipment == 'mosquito' %}selected{% endif %}>TTP Mosquito</option>
+            <option value="echo" {% if data.equipment == 'echo' %}selected{% endif %}>LabCyte Echo</option>
+            <option value="felix" {% if data.equipment == 'felix' %}selected{% endif %}>CyBio Felix</option>
+        </select>
+    </div>
+    <h4 class="ui dividing header">Plate layout</h4>
+    <div class="field">
+        <label>Number of wells</label>
+        <select name="number_of_wells">
+            <option value="96">96</option>
+            <option value="384">384</option>
+        </select>
+    </div>
+    <h4 class="ui dividing header">Required files</h4>
+    <div class="field">
+        <label>Volumes file</label>
+        <input type="file" required name="volumes">
+    </div>
+    <button class="ui primary button">Generate</button>
+</form>
+{% endblock %}

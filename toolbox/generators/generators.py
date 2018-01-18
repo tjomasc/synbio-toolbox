@@ -93,6 +93,7 @@ class Generator(object):
                 well_data.append({
                     'coord': coord,
                     'contents': contents,
+                    'total': well.total(),
                 })
             layout_data['plates'].append({
                 'label': p.label,
@@ -108,8 +109,12 @@ class Generator(object):
 
 class Substance(object):
 
-    def __init__(self, substance_name):
+    def __init__(self, substance_name, group=None):
         self.name = substance_name
+        self.group = None
+
+    def __str__(self):
+        return self.name
 
 
 class Amount(object):

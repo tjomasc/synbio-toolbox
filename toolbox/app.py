@@ -1,16 +1,20 @@
 import io
 from importlib import import_module
 from tempfile import NamedTemporaryFile
+import traceback
 
 from flask import Flask, request, abort, redirect, render_template, send_from_directory
 
 
 VALID_FUNCTIONS = {
     'partpooling': 'toolbox.generators.partpooling.PartPoolingGenerator',
+    'librarypooling': 'toolbox.generators.librarypooling.LibraryPoolingGenerator',
 }
-FILE_STORE = '../files/'
+#FILE_STORE = '../files/'
+FILE_STORE = 'files/'
 
 app = Flask(__name__)
+app.debug = True
 
 @app.route('/')
 def index():
