@@ -23,6 +23,11 @@
         <label>Volumes file</label>
         <input type="file" required name="volumes">
     </div>
+    <p>The volumes file needs to be a CSV file with the following column headers:</p>
+    <code>source plate, source well, sample ID, volume, destination well</code>
+    <p>Please make sure that the header names match exactly, though order is not important.
+    Volume is in microlitres, source plate is the plates position on the deck (except position 3).
+    </p>
     <button class="ui primary button">Generate</button>
 </form>
 {% endblock %}

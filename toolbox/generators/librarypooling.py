@@ -47,7 +47,7 @@ class LibraryPoolingGenerator(Generator):
                 except KeyError:
                     sub = Substance(sample_name)
                     self.substances[sample_name] = sub
-                    volume = float(sample['volume']) * 1000
+                    volume = ceil(float(sample['volume']) * 1000)
                     if len(samples_plate.get_well(sample['source well']).contents) > 0:
                         raise Exception('Well {} in plate {} contains multiple samples. Check file.'
                                         .format(sample['source well'], sample['source plate']))
