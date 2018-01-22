@@ -56,13 +56,13 @@ class MosquitoFileFormat(FileFormat):
             redistribute = ceil(amount.amount/1200)
             new_amount = ceil(amount.amount/redistribute)
             for i in range(0, redistribute):
-                rows.append([source[0], self.char_to_num(source[1]), source[2],
-                             plate_location, self.char_to_num(well_location[0]),
-                             well_location[1], new_amount])
+                rows.append([source[0], source[2], self.char_to_num(source[1]),
+                             plate_location, well_location[1], self.char_to_num(well_location[0]),
+                             new_amount])
         else:
-            rows.append([source[0], self.char_to_num(source[1]), source[2],
-                         plate_location, self.char_to_num(well_location[0]),
-                         well_location[1], amount.amount])
+            rows.append([source[0], source[2], self.char_to_num(source[1]),
+                         plate_location, well_location[1], self.char_to_num(well_location[0]),
+                         amount.amount])
         return rows
 
     def make_file(self):
