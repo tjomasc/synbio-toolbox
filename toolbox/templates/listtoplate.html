@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="ui basic segment">
+    <h2>Convert list to plate</h2>
+    <form class="ui form" enctype="multipart/form-data" method="post">
+        <h4 class="ui dividing header">Required files</h4>
+        <div class="field">
+            <label>List file</label>
+            <input type="file" required name="list">
+        </div>
+        <button class="ui primary button">Generate</button>
+    </form>
+    <div class="ui divider"></div>
+    {% if error %}
+        <div class="ui large icon warning message">
+            <i class="warning circle icon"></i>
+            <div class="content">
+                <div class="header">Error</div>
+                <p>{{ error }}</p>
+            </div>
+        </div>
+    {% elif results['output'] %}
+        <table class="ui compact small definition table">
+            <thead>
+                <tr>
+                    <th></th>
+                    {% for i in range(12) %}
+                    <th class="center aligned">{{ i + 1 }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in results['output']['plate'] %}
+                <tr>
+                    <td>{{ results['output']['letters'][loop.index0] }}</td>
+                    {% for cell in row %}
+                    <td>{{ cell }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+</div>
+{% endblock %}

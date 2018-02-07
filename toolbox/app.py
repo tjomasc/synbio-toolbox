@@ -6,12 +6,18 @@ import traceback
 from flask import Flask, request, abort, redirect, render_template, send_from_directory
 
 
-VALID_FUNCTIONS = {
+VALID_WORKLIST_FUNCTIONS = {
     'partpooling': 'toolbox.generators.partpooling.PartPoolingGenerator',
     'librarypooling': 'toolbox.generators.librarypooling.LibraryPoolingGenerator',
 }
-#FILE_STORE = '../files/'
-FILE_STORE = 'files/'
+
+VALID_CONVERTER_FUNCTIONS = {
+    'listtoplate': 'toolbox.converters.listtoplate.ListToPlateConverter',
+}
+
+
+FILE_STORE = '/Users/thomas/Projects/Toolbox/files/'
+#FILE_STORE = 'files/'
 
 app = Flask(__name__)
 app.debug = True
@@ -29,14 +35,14 @@ def worklists(function):
     data = {}
     results = {}
     error = None
-    if function in VALID_FUNCTIONS:
+    if function in VALID_WORKLIST_FUNCTIONS:
         if request.method == 'POST':
             data = request.form.to_dict()
             data['supplied_files'] = {}
             for key, f in request.files.items():
                 tf = io.StringIO(f.read().decode('utf-8'))
                 data['supplied_files'][key] = tf
-            module, class_name = VALID_FUNCTIONS[function].rsplit('.', 1)
+            module, class_name = VALID_WORKLIST_FUNCTIONS[function].rsplit('.', 1)
             GeneratorClass = getattr(import_module(module), class_name)
             try:
                 m = GeneratorClass(**data, write_to=FILE_STORE)
@@ -57,4 +63,27 @@ def get_worklist_file(filename, download_as):
         return send_from_directory(FILE_STORE, filename, as_attachment=True,
                                    attachment_filename='{}.csv'.format(download_as))
     except Exception as e:
+        abort(404)
+
+@app.route('/converters/<function>/', methods=['GET', 'POST'])
+def converters(function):
+    results = {}
+    error = None
+    if function in VALID_CONVERTER_FUNCTIONS:
+        if request.method == 'POST':
+            data = request.form.to_dict()
+            data['files'] = {}
+            for key, f in request.files.items():
+                tf = io.StringIO(f.read().decode('utf-8'))
+                data['files'][key] = tf
+            module, class_name = VALID_CONVERTER_FUNCTIONS[function].rsplit('.', 1)
+            ConverterClass = getattr(import_module(module), class_name)
+            try:
+                m = ConverterClass(**data, write_to=FILE_STORE)
+                generated = m.generate()
+                results['output'] = generated
+            except Exception as e:
+                error = e
+        return render_template('{}.html'.format(function), results=results, error=error)
+    else:
         abort(404)
