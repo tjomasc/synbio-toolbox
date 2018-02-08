@@ -5,7 +5,7 @@ from .converters import Converter
 
 class ListToPlateConverter(Converter):
     def setup(self, **kwargs):
-        self.plate = [[None] * 12 for i in range(8)]
+        self.plate = [[""] * 12 for i in range(8)]
         self.letters = [chr(i) for i in range(65, 73)]
 
     def generate(self):

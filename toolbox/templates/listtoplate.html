@@ -20,7 +20,7 @@
             </div>
         </div>
     {% elif results['output'] %}
-        <table class="ui compact small definition table">
+        <table class="ui compact small celled definition table">
             <thead>
                 <tr>
                     <th></th>
@@ -34,7 +34,7 @@
                 <tr>
                     <td>{{ results['output']['letters'][loop.index0] }}</td>
                     {% for cell in row %}
-                    <td>{{ cell }}</td>
+                    <td>{{ cell|default("") }}</td>
                     {% endfor %}
                 </tr>
                 {% endfor %}
