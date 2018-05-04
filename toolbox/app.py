@@ -9,6 +9,7 @@ from flask import Flask, request, abort, redirect, render_template, send_from_di
 VALID_WORKLIST_FUNCTIONS = {
     'partpooling': 'toolbox.generators.partpooling.PartPoolingGenerator',
     'librarypooling': 'toolbox.generators.librarypooling.LibraryPoolingGenerator',
+    'matrix': 'toolbox.generators.matrix.PlateMatrixGenerator',
 }
 
 VALID_CONVERTER_FUNCTIONS = {
@@ -52,6 +53,8 @@ def worklists(function):
                 results['plates'] = generated_data[2]
                 results['other_files'] = {fn: f.split('/')[-1] for fn, f in generated_data[1]}
             except Exception as e:
+                print(e)
+                traceback.print_exc()
                 error = e
         return render_template('{}.html'.format(function), data=data, results=results, error=error)
     else:
