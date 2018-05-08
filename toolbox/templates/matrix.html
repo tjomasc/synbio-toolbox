@@ -21,15 +21,15 @@
     <h4 class="ui dividing header">Required values</h4>
     <div class="field">
         <label>Amount of substance (nl)</label>
-        <input name="amount_substance" required value="50">
+        <input name="amount_substance" required value="{{ data.amount_substance|default(50) }}">
     </div>
     <div class="field">
         <label>Default mix substance</label>
-        <input name="default_mix">
+        <input name="default_mix" value="{{ data.default_mix|default('') }}">
     </div>
     <div class="field">
         <label>Amount of mix (ul)</label>
-        <input name="amount_mix" required value="50">
+        <input name="amount_mix" required value="{{ data.amount_mix|default(50) }}">
     </div>
     <h4 class="ui dividing header">Required files</h4>
     <div class="field">
