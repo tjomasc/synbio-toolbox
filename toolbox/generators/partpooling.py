@@ -54,7 +54,9 @@ class PartPoolingGenerator(Generator):
 
         parts_plate = Plate(number_of_wells, 'Parts', kwargs.get('parts_location', 2))
         constructs_plate = Plate(number_of_wells, 'Constructs',
-                                 kwargs.get('constructs_location', 3), function='destination')
+                                 kwargs.get('constructs_location', 3),
+                                 function='destination',
+                                 placement=kwargs.get('placement', 'row'))
 
         self.plates.extend([reagents_plate, parts_plate, constructs_plate])
 

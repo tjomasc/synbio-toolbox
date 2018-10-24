@@ -147,7 +147,8 @@ class Plate(object):
     plate_96 = (12, 8)
     plate_384 = (24, 16)
 
-    def __init__(self, well_count, label, location, function='source', spacing=1, **kwargs):
+    def __init__(self, well_count, label, location, function='source', spacing=1,
+                 placement='row', **kwargs):
         self.well_count = well_count
         # Nice easy to read name
         self.label = label
@@ -157,6 +158,8 @@ class Plate(object):
         self.function = function
         # Gap between wells. 1 = normal, 2 = double, 3 = triple). Both directions.
         self.spacing = spacing
+        # Set placement - row or column
+        self.placement = placement
 
         self.wells = {}
 
@@ -195,18 +198,32 @@ class Plate(object):
     def get_next_well(self, previous_coordinates):
         row = ascii_uppercase.index(previous_coordinates[0])
         col = int(previous_coordinates[1:])
-        if (row + self.spacing) % self.divisor == 0:
-            next_row = ascii_uppercase[row + self.spacing]
-            col = self.spacing
+        if self.placement == 'column':
+            # Select next well by column (going down the plate)
+            if (row != 0 and (row + self.spacing) % self.layout[1] == 0) or row > self.layout[1]:
+                next_row = ascii_uppercase[0]
+                next_col = col + self.spacing
+            else:
+                next_row = ascii_uppercase[row + self.spacing]
+                next_col = int(previous_coordinates[1])
         else:
-            next_row = previous_coordinates[0]
-            col = col + self.spacing
-        lookup = (next_row, col)
+            # Select next well by row (across the plate)
+            if col % self.divisor == 0 or col > self.divisor:
+                next_row = ascii_uppercase[row + self.spacing]
+                next_col = self.spacing
+            else:
+                next_row = previous_coordinates[0]
+                next_col = col + self.spacing
+        lookup = (next_row, next_col)
         try:
             well = self.wells[lookup]
         except KeyError as e:
             raise Exception('Location chosen is out of range')
-        return well, '{}{}'.format(next_row, col)
+        return well, '{}{}'.format(next_row, next_col)
+
+    def to_well_coord(self, row, col):
+        string_row = ascii_uppercase[row + self.spacing]
+        return '{}{}'.format(string_row, col)
 
     def get_filled_wells(self):
         filled = {}

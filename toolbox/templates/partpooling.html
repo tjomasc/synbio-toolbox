@@ -39,6 +39,15 @@
             <option value="384">384</option>
         </select>
     </div>
+    <div class="field">
+        <label>Well selection</label>
+        <select name="placement">
+            <option value="row" {% if data.placement == 'row' %}selected{% endif %}>
+                Row (across plate)</option>
+            <option value="column" {% if data.placement == 'column' %}selected{% endif %}>
+                Column (down plate)</option>
+        </select>
+    </div>
     <div class="two fields">
         <div class="field">
             <label>Water well</label>
