@@ -205,7 +205,7 @@ class Plate(object):
                 next_col = col + self.spacing
             else:
                 next_row = ascii_uppercase[row + self.spacing]
-                next_col = int(previous_coordinates[1])
+                next_col = int(previous_coordinates[1:])
         else:
             # Select next well by row (across the plate)
             if col % self.divisor == 0 or col > self.divisor:
